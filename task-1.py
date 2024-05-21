@@ -1,24 +1,22 @@
-class TreeNode:
-    def __init__(self, key):
-        self.left = None
-        self.right = None
-        self.val = key
+import heapq
 
-def find_maximum_value(root):
-    if root is None:
-        return None
+def min_cost(cable_lengths):
     
-    current_node = root
-    while current_node.right is not None:
-        current_node = current_node.right
+    heapq.heapify(cable_lengths)
     
-    return current_node.val
+    total_cost = 0
+    
+    while len(cable_lengths) > 1:
+        cable_1 = heapq.heappop(cable_lengths)
+        cable_2 = heapq.heappop(cable_lengths)
+    
+        cost = cable_1 + cable_2
+        total_cost += cost
 
-root = TreeNode(20)
-root.left = TreeNode(10)
-root.right = TreeNode(30)
-root.right.left = TreeNode(25)
-root.right.right = TreeNode(40)
+        heapq.heappush(cable_lengths, cost)
+    
+    return total_cost
 
-max_value = find_maximum_value(root)
-print(f"The maximum value in the tree is: {max_value}")
+cable_lengths = [4, 3, 9, 2, 6]
+total_cost = min_cost(cable_lengths)
+print(f"Cost to connect all cables: {total_cost}")
